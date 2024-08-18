@@ -6,7 +6,7 @@ function DashboardHeader() {
   const role = localStorage.getItem("role")
 
   const [initials, setInitials] = useState('XY');
-  useEffect(() => {
+  useEffect(() => { 
     const username = localStorage.getItem("username");
     if (username) {
       const userInitials = username.split(' ').map(word => word[0]).join('');
