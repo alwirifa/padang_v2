@@ -103,42 +103,30 @@ const UsersPage: React.FC = () => {
           responseSatuan,
           responseSupplier,
         ] = await Promise.all([
-          axios.get(
-            "http://localhost:8080/api/admin/barang",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            }
-          ),
-          axios.get(
-            "http://localhost:8080/api/admin/brand",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            }
-          ),
-          axios.get(
-            "http://localhost:8080/api/admin/satuan",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            }
-          ),
-          axios.get(
-            "http://localhost:8080/api/admin/supplier",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            }
-          ),
+          axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }),
+          axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/brand`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }),
+          axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/satuan`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }),
+          axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/supplier`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }),
         ]);
 
         if (responseBarang.status === 200) {
@@ -161,7 +149,7 @@ const UsersPage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:8080/api/admin/barang?id=${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang?id=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -179,16 +167,12 @@ const UsersPage: React.FC = () => {
     const token = localStorage.getItem("token");
     toast.promise(
       axios
-        .post(
-          "http://localhost:8080/api/admin/barang",
-          values,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        )
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang`, values, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        })
         .then((response) => {
           console.log("Response:", response.data);
         })
@@ -211,7 +195,7 @@ const UsersPage: React.FC = () => {
     toast.promise(
       axios
         .put(
-          `http://localhost:8080/api/admin/barang?id=${selectedBarang.id}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang?id=${selectedBarang.id}`,
           values,
           {
             headers: {

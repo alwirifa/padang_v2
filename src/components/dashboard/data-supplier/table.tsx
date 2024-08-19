@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { edit } from "../../../../public/icons";
+import Image from "next/image";
 
 interface Supplier {
   id: number;
@@ -24,7 +26,6 @@ const SupplierTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
     }
   };
 
-  
   const handleUpdate = (supplier: Supplier) => {
     if (onUpdate) {
       onUpdate(supplier);
@@ -69,6 +70,9 @@ const SupplierTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
                 {item.nomor_kontak}
               </td>
               <td className="px-6 py-4 whitespace-nowrap flex gap-2">
+                <button onClick={() => handleUpdate(item)}>
+                  <Image src={edit} alt="edit" width={24} height={24} />
+                </button>
                 <button
                   onClick={() => handleDelete(item.id)}
                   className="text-red-500 hover:text-red-700 mx-2"
@@ -102,12 +106,6 @@ const SupplierTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
                       fill-opacity="0.81"
                     />
                   </svg>
-                </button>
-                <button
-                  onClick={() => handleUpdate(item)}
-                  className="text-red-500 hover:text-red-700 mx-2"
-                >
-                  Update
                 </button>
               </td>
             </tr>

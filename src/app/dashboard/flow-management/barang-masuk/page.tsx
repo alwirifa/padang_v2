@@ -63,7 +63,7 @@ const UsersPage: React.FC = () => {
         const token = localStorage.getItem("token");
         const [responseBarangIn, responseBarang] = await Promise.all([
           axios.get(
-            "http://localhost:8080/api/admin/barangin",
+            `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangin`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ const UsersPage: React.FC = () => {
             }
           ),
           axios.get(
-            "http://localhost:8080/api/admin/barang",
+            `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -102,7 +102,7 @@ const UsersPage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:8080/api/admin/barangin?id=${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangin?id=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -121,7 +121,7 @@ const UsersPage: React.FC = () => {
     toast.promise(
       axios
         .post(
-          "http://localhost:8080/api/admin/barangin",
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangin`,
           {
             ...values,
             jumlah: Number(values.jumlah), 

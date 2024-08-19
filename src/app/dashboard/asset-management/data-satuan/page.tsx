@@ -27,7 +27,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
 
-
 interface Satuan {
   id: number;
   nama: string;
@@ -39,9 +38,7 @@ const formSchema = z.object({
 
 const UsersPage: React.FC = () => {
   const [satuan, setSatuan] = useState<Satuan[]>([]);
-  const [selectedSatuan, setSelectedSatuan] = useState<Satuan | null>(
-    null
-  );
+  const [selectedSatuan, setSelectedSatuan] = useState<Satuan | null>(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,13 +56,12 @@ const UsersPage: React.FC = () => {
     }
   }, [selectedSatuan]);
 
-
   useEffect(() => {
     const fetchBarang = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:8080/api/admin/satuan",
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/satuan`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -91,7 +87,7 @@ const UsersPage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:8080/api/admin/satuan?id=${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/satuan?id=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -109,16 +105,12 @@ const UsersPage: React.FC = () => {
     const token = localStorage.getItem("token");
     toast.promise(
       axios
-        .post(
-          "http://localhost:8080/api/admin/satuan",
-          values,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        )
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/satuan`, values, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        })
         .then((response) => {
           console.log("Response:", response.data);
         })
@@ -141,7 +133,7 @@ const UsersPage: React.FC = () => {
     toast.promise(
       axios
         .put(
-          `http://localhost:8080/api/admin/satuan?id=${selectedSatuan.id}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/satuan?id=${selectedSatuan.id}`,
           values,
           {
             headers: {
@@ -165,7 +157,6 @@ const UsersPage: React.FC = () => {
     );
   };
 
-
   return (
     <div className="bg-white h-full w-full font-sans flex flex-col p-4">
       <div className="w-full flex justify-between items-center">
@@ -187,7 +178,6 @@ const UsersPage: React.FC = () => {
           </svg>
           <p className="font-bold">Dashboard</p>
         </Link>
-
 
         <Dialog>
           <DialogTrigger asChild>
@@ -221,7 +211,7 @@ const UsersPage: React.FC = () => {
                   render={({ field }) => (
                     <FormItem className="relative">
                       <p className="font-semibold text-lg translate-y-2">
-                       Nama Satuan
+                        Nama Satuan
                       </p>
                       <FormControl>
                         <div className="relative flex items-center">
@@ -237,7 +227,6 @@ const UsersPage: React.FC = () => {
                     </FormItem>
                   )}
                 />
-
 
                 <div className="w-full flex justify-center gap-4 ">
                   <button
@@ -293,18 +282,17 @@ const UsersPage: React.FC = () => {
                   </FormItem>
                 )}
               />
-          
-<div className="w-full flex justify-center items-center gap-4">
 
-              <button type="submit" className="btn btn-primary">
-                Update
-              </button>
-              <DialogClose asChild>
-                <button type="button" className="btn btn-secondary">
-                  Cancel
+              <div className="w-full flex justify-center items-center gap-4">
+                <button type="submit" className="btn btn-primary">
+                  Update
                 </button>
-              </DialogClose>
-</div>
+                <DialogClose asChild>
+                  <button type="button" className="btn btn-secondary">
+                    Cancel
+                  </button>
+                </DialogClose>
+              </div>
             </form>
           </Form>
         </DialogContent>

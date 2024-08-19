@@ -68,7 +68,7 @@ const UsersPage: React.FC = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:8080/api/admin/supplier",
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/supplier`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ const UsersPage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:8080/api/admin/supplier?id=${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/supplier?id=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -112,16 +112,12 @@ const UsersPage: React.FC = () => {
     const token = localStorage.getItem("token");
     toast.promise(
       axios
-        .post(
-          "http://localhost:8080/api/admin/supplier",
-          values,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        )
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/supplier`, values, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        })
         .then((response) => {
           console.log("Response:", response.data);
         })
@@ -144,7 +140,7 @@ const UsersPage: React.FC = () => {
     toast.promise(
       axios
         .put(
-          `http://localhost:8080/api/admin/supplier?id=${selectedSupplier.id}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/supplier?id=${selectedSupplier.id}`,
           values,
           {
             headers: {
@@ -372,17 +368,16 @@ const UsersPage: React.FC = () => {
                   </FormItem>
                 )}
               />
-<div className="w-full flex justify-center items-center gap-4">
-
-              <button type="submit" className="btn btn-primary">
-                Update
-              </button>
-              <DialogClose asChild>
-                <button type="button" className="btn btn-secondary">
-                  Cancel
+              <div className="w-full flex justify-center items-center gap-4">
+                <button type="submit" className="btn btn-primary">
+                  Update
                 </button>
-              </DialogClose>
-</div>
+                <DialogClose asChild>
+                  <button type="button" className="btn btn-secondary">
+                    Cancel
+                  </button>
+                </DialogClose>
+              </div>
             </form>
           </Form>
         </DialogContent>

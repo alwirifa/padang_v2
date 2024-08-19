@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/accordion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { home } from "../../../public/icons";
+import Image from "next/image";
 
 interface MenuItem {
   title: string;
@@ -24,13 +26,12 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     title: "Dashboard",
-    route: '/dashboard',
-    icon: <Home size={20} />,
+    route: "/dashboard",
+    icon: <Image src={home} alt="home" width={32} height={32} />,
   },
 ];
 
 const Sidebar = () => {
- 
   const router = useRouter();
 
   const handleLogout = () => {
@@ -39,7 +40,8 @@ const Sidebar = () => {
     localStorage.removeItem("nama");
     localStorage.removeItem("username");
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
-    document.cookie = "role_id=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+    document.cookie =
+      "role_id=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
 
     // Redirect to sign-in page
     router.push("/sign-in");
@@ -58,10 +60,7 @@ const Sidebar = () => {
         </div>
 
         <div className="bg-white w-full overflow-y-auto p-6 h-full rounded-xl">
-          <Accordion
-            type="multiple"
-            className="animate-none "
-          >
+          <Accordion type="multiple" className="animate-none ">
             {menuItems.map((item) => (
               <AccordionItem value={item.title} key={item.title}>
                 {item.subtitle ? (
@@ -69,7 +68,6 @@ const Sidebar = () => {
                     <div className="flex items-center space-x-2 cursor-pointer text-base font-semibold w-full px-4">
                       {item.icon}
                       <span>{item.title}</span>
-                
                     </div>
                   </AccordionTrigger>
                 ) : (
@@ -87,7 +85,9 @@ const Sidebar = () => {
                 )}
               </AccordionItem>
             ))}
-            <button type="submit" className="ml-[45px]" onClick={handleLogout}>Logout</button>
+            <button type="submit" className="ml-[45px]" onClick={handleLogout}>
+              Logout
+            </button>
           </Accordion>
         </div>
       </div>

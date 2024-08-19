@@ -62,7 +62,7 @@ const UsersPage: React.FC = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:8080/api/admin/brand",
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/brand`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -88,7 +88,7 @@ const UsersPage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:8080/api/admin/brand?id=${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/brand?id=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -106,16 +106,12 @@ const UsersPage: React.FC = () => {
     const token = localStorage.getItem("token");
     toast.promise(
       axios
-        .post(
-          "http://localhost:8080/api/admin/brand",
-          values,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        )
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/brand`, values, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        })
         .then((response) => {
           console.log("Response:", response.data);
         })
@@ -138,7 +134,7 @@ const UsersPage: React.FC = () => {
     toast.promise(
       axios
         .put(
-          `http://localhost:8080/api/admin/brand?id=${selectedBrand.id}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/brand?id=${selectedBrand.id}`,
           values,
           {
             headers: {

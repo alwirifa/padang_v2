@@ -2,6 +2,8 @@
 
 import React from "react";
 import axios from "axios";
+import Image from "next/image";
+import { accept, reject } from "../../../public/icons";
 
 interface Barang {
   id: number;
@@ -23,7 +25,7 @@ const BarangDashboardTable: React.FC<TableProps> = ({ data }) => {
 
     axios
       .post(
-        `http://localhost:8080/api/admin/request/approve-reject?id=${id}&status=1`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/request/approve-reject?id=${id}&status=1`,
         { status: 1 },
         {
           headers: {
@@ -45,7 +47,7 @@ const BarangDashboardTable: React.FC<TableProps> = ({ data }) => {
 
     axios
       .post(
-        `http://localhost:8080/api/admin/request/approve-reject?id=${id}&status=2`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/request/approve-reject?id=${id}&status=2`,
         { status: 2 },
         {
           headers: {
@@ -98,27 +100,19 @@ const BarangDashboardTable: React.FC<TableProps> = ({ data }) => {
               <td className="px-6 py-4 whitespace-nowrap">
                 {item.tanggal_request}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                {item.nama_user}
-              </td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.nama_user}</td>
 
               <td className="px-6 py-4 whitespace-nowrap">
                 {item.nama_barang}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">{item.jumlah}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.satuan}</td>
-              <td className="px-6 py-4 whitespace-nowrap flex">
-                <button
-                  onClick={() => handleApprove(item.id)}
-                  className="bg-green-500 text-white px-4 py-2 rounded mr-2"
-                >
-                  Approve
+              <td className="px-6 py-4 whitespace-nowrap flex gap-4">
+                <button onClick={() => handleApprove(item.id)}>
+                  <Image src={accept} alt="home" width={24} height={24} />
                 </button>
-                <button
-                  onClick={() => handleReject(item.id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded"
-                >
-                  Reject
+                <button onClick={() => handleReject(item.id)}>
+                  <Image src={reject} alt="home" width={24} height={24} />
                 </button>
               </td>
             </tr>

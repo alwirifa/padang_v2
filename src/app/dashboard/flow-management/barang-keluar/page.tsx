@@ -62,24 +62,18 @@ const UsersPage: React.FC = () => {
       try {
         const token = localStorage.getItem("token");
         const [responseBarangIn, responseBarang] = await Promise.all([
-          axios.get(
-            "http://localhost:8080/api/admin/barangout",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            }
-          ),
-          axios.get(
-            "http://localhost:8080/api/admin/barang",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            }
-          ),
+          axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangout`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }),
+          axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }),
         ]);
         console.log("response", responseBarangIn);
         if (responseBarangIn.status === 200) {
@@ -101,15 +95,12 @@ const UsersPage: React.FC = () => {
   const handleDelete = async (id: number) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(
-        `http://localhost:8080/api/admin/barangout?id=${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "69420",
-          },
-        }
-      );
+      await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangout?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "69420",
+        },
+      });
       setBarangIn(barangIn.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -121,10 +112,10 @@ const UsersPage: React.FC = () => {
     toast.promise(
       axios
         .post(
-          "http://localhost:8080/api/admin/barangin",
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangin`,
           {
             ...values,
-            jumlah: Number(values.jumlah), 
+            jumlah: Number(values.jumlah),
           },
           {
             headers: {

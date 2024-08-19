@@ -1,14 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
-
-// interface Barang {
-//   id: number;
-//   nama_barang: string;
-//   brand: string;
-//   stok: number;
-//   satuan: string;
-// }
+import { edit } from "../../../../public/icons";
 
 interface Barang {
   id: number;
@@ -17,7 +11,6 @@ interface Barang {
   satuan: number;
   supplier?: number;
 }
-
 
 interface TableProps {
   data: any[];
@@ -78,11 +71,8 @@ const BarangTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
               <td className="px-6 py-4 whitespace-nowrap">{item.stok}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.satuan}</td>
               <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                <button
-                  onClick={() => handleUpdate(item)}
-                  className="text-green-500 hover:text-green-700 mx-2"
-                >
-                  Update
+                <button onClick={() => handleUpdate(item)}>
+                  <Image src={edit} alt="edit" width={24} height={24} />
                 </button>
                 <button
                   onClick={() => handleDelete(item.id)}

@@ -90,7 +90,7 @@ const DashboardPage: React.FC = () => {
     try{
       const token = localStorage.getItem("token")
       const response = await axios.get(
-        "http://localhost:8080/api/user/barang",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/barang`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -116,7 +116,7 @@ const DashboardPage: React.FC = () => {
     toast.promise(
       axios
         .post(
-          "http://localhost:8080/api/user/request",
+          `${process.env.NEXT_PUBLIC_BASE_URL}/user/request`,
           {
             barang_id: Number(values.barang_id), // Ensure barang_id is a number
             total_request: Number(values.jumlah), // Ensure jumlah is a number

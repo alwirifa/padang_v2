@@ -26,7 +26,7 @@ const DashboardPage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:8080/api/admin/request",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/request`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ const DashboardPage: React.FC = () => {
 
   useEffect(() => {
     fetchBarang();
-  }, []); 
+  }, []);
   if (loading) return <div>Loading...</div>;
 
   if (error) return <div>{error}</div>;

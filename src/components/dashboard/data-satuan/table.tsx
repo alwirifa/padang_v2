@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
+import { edit } from "../../../../public/icons";
 
 interface Satuan {
   id: number;
@@ -53,6 +55,9 @@ const SatuanTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
               <td className="px-6 py-4 whitespace-nowrap">{item.id}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.nama}</td>
               <td className="px-6 py-4 whitespace-nowrap flex gap-2">
+                <button onClick={() => handleUpdate(item)}>
+                  <Image src={edit} alt="edit" width={24} height={24} />
+                </button>
                 <button
                   onClick={() => handleDelete(item.id)}
                   className="text-red-500 hover:text-red-700 mx-2"
@@ -86,12 +91,6 @@ const SatuanTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
                       fill-opacity="0.81"
                     />
                   </svg>
-                </button>
-                <button
-                  onClick={() => handleUpdate(item)}
-                  className="text-red-500 hover:text-red-700 mx-2"
-                >
-                  Update
                 </button>
               </td>
             </tr>

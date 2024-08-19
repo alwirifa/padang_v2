@@ -60,7 +60,6 @@ const UsersPage: React.FC = () => {
     },
   });
 
-
   useEffect(() => {
     if (selectedUser) {
       form.reset({
@@ -71,13 +70,13 @@ const UsersPage: React.FC = () => {
       });
     }
   }, [selectedUser]);
-  
-  
+
   const fetchBarang = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:8080/api/admin/user",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`,
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -101,13 +100,11 @@ const UsersPage: React.FC = () => {
     console.log("Selected User:", selectedUser?.id);
   }, [selectedUser]);
 
-
-
   const handleDelete = async (id: number) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:8080/api/admin/user?id=${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/user?id=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -125,16 +122,12 @@ const UsersPage: React.FC = () => {
     const token = localStorage.getItem("token");
     toast.promise(
       axios
-        .post(
-          "http://localhost:8080/api/admin/user",
-          values,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        )
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/user`, values, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        })
         .then((response) => {
           console.log("Response:", response.data);
         })
@@ -150,8 +143,6 @@ const UsersPage: React.FC = () => {
     );
   };
 
-  
-
   const handleUpdate = async (
     values: z.infer<typeof formSchema>,
     id: number
@@ -160,7 +151,7 @@ const UsersPage: React.FC = () => {
     toast.promise(
       axios
         .put(
-          `http://localhost:8080/api/admin/user?id=${selectedUser?.id}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/user?id=${selectedUser?.id}`,
           values,
           {
             headers: {
@@ -312,7 +303,6 @@ const UsersPage: React.FC = () => {
                           onValueChange={(value: string) =>
                             field.onChange(parseInt(value))
                           }
-                    
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -428,7 +418,6 @@ const UsersPage: React.FC = () => {
                         onValueChange={(value: string) =>
                           field.onChange(parseInt(value))
                         }
-                     
                       >
                         <FormControl>
                           <SelectTrigger>

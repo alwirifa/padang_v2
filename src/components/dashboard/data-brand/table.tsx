@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { edit } from "../../../../public/icons";
+import Image from "next/image";
 
 interface Brand {
   id: number;
@@ -53,11 +55,8 @@ const BrandTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
               <td className="px-6 py-4 whitespace-nowrap">{item.id}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.nama}</td>
               <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-              <button
-                  onClick={() => handleUpdate(item)}
-                  className="text-green-500 hover:text-green-700 mx-2"
-                >
-                  Update
+                <button onClick={() => handleUpdate(item)}>
+                  <Image src={edit} alt="edit" width={24} height={24} />
                 </button>
                 <button
                   onClick={() => handleDelete(item.id)}

@@ -40,28 +40,24 @@ export default function Home() {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     toast.promise(
       axios
-        .post(
-          "http://localhost:8080/api/auth/login",
-          values,
-          {}
-        )
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, values, {})
         .then((response) => {
           const { token, nama, username, role_id } = response.data.data;
 
           // Ensure cookies and local storage are correctly set
           document.cookie = `token=${token}; path=/;`;
           document.cookie = `role_id=${role_id}; path=/;`;
-          
+
           console.log("Token and Role ID set:", token, role_id);
 
           localStorage.setItem("token", token);
           localStorage.setItem("nama", nama);
           localStorage.setItem("username", username);
           localStorage.setItem("role_id", role_id);
-          if (role_id == 1){
-            localStorage.setItem("role", "admin")
-          }else{
-            localStorage.setItem("role", "user")
+          if (role_id == 1) {
+            localStorage.setItem("role", "admin");
+          } else {
+            localStorage.setItem("role", "user");
           }
 
           // Debugging: Log role_id and redirect URL
@@ -69,7 +65,7 @@ export default function Home() {
 
           if (role_id === 2) {
             console.log("Redirecting to /dashboard-user");
-            router.refresh()
+            router.refresh();
             router.push("/dashboard-user");
           } else {
             console.log("Redirecting to /dashboard");
