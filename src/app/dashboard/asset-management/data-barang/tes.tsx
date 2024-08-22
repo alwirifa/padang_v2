@@ -445,14 +445,23 @@ const UsersPage: React.FC = () => {
                   );
                 }}
               />
-              <button type="submit" className="btn btn-primary">
-                Update
-              </button>
-              <DialogClose asChild>
-                <button type="button" className="btn btn-secondary">
-                  Cancel
+              <div className="w-full flex justify-center items-center gap-4">
+
+                <button
+                  type="submit"
+                  className="px-8 py-2 bg-[#B9FF99] rounded-md font-sans font-bold"
+                >
+                  Add
                 </button>
-              </DialogClose>
+                <DialogClose asChild>
+                  <button
+                    type="button"
+                    className="px-6 py-2 bg-[#FFFCB6] rounded-md font-sans font-bold"
+                  >
+                    Close
+                  </button>
+                </DialogClose>
+              </div>
             </form>
           </Form>
         </DialogContent>
