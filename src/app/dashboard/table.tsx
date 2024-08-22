@@ -121,13 +121,20 @@ const BarangDashboardTable: React.FC<TableProps> = ({ data, fetchBarang }) => {
           <DialogDescription>{errorMessage}</DialogDescription>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="secondary" onClick={() => setIsErrorModalOpen(false)}>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setIsErrorModalOpen(false);
+                  fetchBarang(); // Call fetchBarang after closing the modal
+                }}
+              >
                 Close
               </Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
     </div>
   );
 };

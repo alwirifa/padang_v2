@@ -1,10 +1,11 @@
 "use client";
 
-import BarangMasukTable from "@/components/dashboard/barang-masuk/table";
+import BarangKeluarTable from "@/components/dashboard/barang-keluar/table";
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { StringValidation } from "zod";
 
 interface Barang {
   id: number;
@@ -13,6 +14,9 @@ interface Barang {
   jumlah_keluar: number;
   satuan: string;
   jumlah: number;
+  date: String;
+  nama_brand: string;
+  nama_user: string;
 }
 
 const UsersPage: React.FC = () => {
@@ -40,6 +44,7 @@ const UsersPage: React.FC = () => {
       if (responseBarangIn.status === 200) {
         setBarangIn(responseBarangIn.data.data);
         setBarang(responseBarang.data.data);
+        console.log(barangIn)
       } else {
         console.error("Unexpected status code:", responseBarangIn.status);
       }
@@ -202,7 +207,7 @@ const UsersPage: React.FC = () => {
         </Dialog> */}
       </div>
       {/* Render BarangMasukTable or other components here */}
-      <BarangMasukTable data={barangIn} onDelete={handleDelete} />
+      <BarangKeluarTable data={barangIn}/>
     </div>
   );
 };

@@ -40,6 +40,7 @@ interface Barang {
   nama_barang: string;
   jumlah: number;
   satuan: string;
+  nama_brand: string;
 }
 
 const formSchema = z.object({

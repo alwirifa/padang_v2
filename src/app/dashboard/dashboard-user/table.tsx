@@ -11,6 +11,7 @@ interface Barang {
   nama_barang: string;
   jumlah: number;
   satuan: string;
+  nama_brand: string;
 }
 
 interface TableProps {
@@ -26,16 +27,17 @@ const BarangDashboardTable: React.FC<TableProps> = ({ data }) => {
         <thead>
           <tr>
             <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
-              ID
+              No
             </th>
             <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
               Tanggal Request
             </th>
-            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
-              Nama User
-            </th>
+            
             <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
               Nama Barang
+            </th>
+            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
+              Nama Brand
             </th>
             <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
               Jumlah
@@ -55,12 +57,12 @@ const BarangDashboardTable: React.FC<TableProps> = ({ data }) => {
               <td className="px-6 py-4 whitespace-nowrap">
                 {item.tanggal_request}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                {item.nama_user}
-              </td>
 
               <td className="px-6 py-4 whitespace-nowrap">
                 {item.nama_barang}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {item.nama_brand}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">{item.jumlah}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.satuan}</td>

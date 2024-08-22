@@ -82,7 +82,7 @@ const UserTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
               <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.nama}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.username}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.password}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{'*'.repeat(item.password.length)}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.role}</td>
               <td className="px-6 py-4 whitespace-nowrap flex gap-2">
                 <button onClick={() => handleUpdate(item)}>

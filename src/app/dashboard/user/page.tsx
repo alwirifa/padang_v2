@@ -186,6 +186,8 @@ const UsersPage: React.FC = () => {
     );
   };
 
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   return (
     <div className="bg-white h-full w-full font-sans flex flex-col p-4">
       <div className="w-full flex justify-between items-center">
@@ -406,13 +408,24 @@ const UsersPage: React.FC = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <p className="font-semibold text-lg translate-y-2">Password</p>
                     <FormControl>
-                      <Input
-                        placeholder={selectedUser?.password}
-                        {...field}
-                        defaultValue={selectedUser?.password}
-                      />
+                      <div className="relative flex items-center">
+                        <Input
+                          placeholder="Password"
+                          type={isPasswordVisible ? "text" : "password"}
+                          value={isPasswordVisible ? field.value : '*'.repeat(field.value.length)}
+                          {...field}
+                          className="p-6 bg-[#C6DBE0] placeholder:text-xl placeholder:text-zinc-600 text-primary text-xl rounded-full"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                          className="absolute right-3 p-2"
+                        >
+                          {isPasswordVisible ? "Hide" : "Show"}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -445,11 +458,17 @@ const UsersPage: React.FC = () => {
                   );
                 }}
               />
-              <button type="submit" className="btn btn-primary">
+              <button
+                type="submit"
+                className="px-8 py-2 bg-[#B9FF99] rounded-md font-sans font-bold"
+              >
                 Update
               </button>
               <DialogClose asChild>
-                <button type="button" className="btn btn-secondary">
+                <button
+                  type="button"
+                  className="px-6 py-2 bg-[#FFFCB6] rounded-md font-sans font-bold"
+                >
                   Cancel
                 </button>
               </DialogClose>

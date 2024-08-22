@@ -42,6 +42,7 @@ interface Barang {
   nama_barang: string;
   jumlah: number;
   satuan: string;
+  nama_brand: string;
 }
 
 // Zod schema expecting numbers

@@ -38,6 +38,7 @@ interface Barang {
   jumlah_keluar: number;
   satuan: string;
   jumlah: number;
+  nama_brand: string;
 }
 
 const formSchema = z.object({
@@ -78,6 +79,7 @@ const UsersPage: React.FC = () => {
       if (responseBarangIn.status === 200) {
         setBarangIn(responseBarangIn.data.data);
         setBarang(responseBarang.data.data);
+        console.log(responseBarangIn)
       } else {
         console.error("Unexpected status code:", responseBarangIn.status);
       }

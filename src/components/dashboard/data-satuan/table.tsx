@@ -38,7 +38,7 @@ const SatuanTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
         <thead>
           <tr>
             <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
-              ID
+              No
             </th>
             <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
               Satuan

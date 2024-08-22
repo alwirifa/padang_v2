@@ -8,6 +8,8 @@ interface Barang {
   nama_supplier: string;
   jumlah_keluar: number;
   satuan: string;
+  date: string;
+  nama_brand: string;
 }
 
 interface TableProps {
@@ -30,10 +32,16 @@ const BarangMasukTable: React.FC<TableProps> = ({ data, onDelete }) => {
         <thead>
           <tr>
             <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
-              ID
+              No
+            </th>
+            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
+              Tanggal
             </th>
             <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
               Nama Barang
+            </th>
+            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
+              Nama Brand
             </th>
             <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
               Nama Supplier
@@ -54,7 +62,13 @@ const BarangMasukTable: React.FC<TableProps> = ({ data, onDelete }) => {
             <tr key={item.id} className="border-t">
               <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap">
+                {item.date}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
                 {item.nama_barang}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {item.nama_brand}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 {item.nama_supplier}
