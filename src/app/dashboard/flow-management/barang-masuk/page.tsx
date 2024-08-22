@@ -57,42 +57,36 @@ const UsersPage: React.FC = () => {
     },
   });
 
-  useEffect(() => {
-    const fetchBarang = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const [responseBarangIn, responseBarang] = await Promise.all([
-          axios.get(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangin`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            }
-          ),
-          axios.get(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            }
-          ),
-        ]);
-        console.log("response", responseBarangIn);
-        if (responseBarangIn.status === 200) {
-          setBarangIn(responseBarangIn.data.data);
-          setBarang(responseBarang.data.data);
-        } else {
-          console.error("Unexpected status code:", responseBarangIn.status);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const fetchBarang = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const [responseBarangIn, responseBarang] = await Promise.all([
+        axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangin`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }),
+        axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }),
+      ]);
+      console.log("response", responseBarangIn);
+      if (responseBarangIn.status === 200) {
+        setBarangIn(responseBarangIn.data.data);
+        setBarang(responseBarang.data.data);
+      } else {
+        console.error("Unexpected status code:", responseBarangIn.status);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchBarang();
   }, []);
 
@@ -110,8 +104,11 @@ const UsersPage: React.FC = () => {
           },
         }
       );
+      toast.success("Delete successful!");
+      fetchBarang();
       setBarangIn(barangIn.filter((item) => item.id !== id));
     } catch (error) {
+      toast.error("Delete failed. Please try again.");
       console.error("Error deleting item:", error);
     }
   };
@@ -124,7 +121,7 @@ const UsersPage: React.FC = () => {
           `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangin`,
           {
             ...values,
-            jumlah: Number(values.jumlah), 
+            jumlah: Number(values.jumlah),
           },
           {
             headers: {
@@ -133,8 +130,8 @@ const UsersPage: React.FC = () => {
             },
           }
         )
-        .then((response) => {
-          console.log("Response:", response.data);
+        .then(() => {
+          fetchBarang();
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -249,7 +246,7 @@ const UsersPage: React.FC = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                /> 
+                />
 
                 <DialogFooter className="">
                   <div className="w-full flex justify-center gap-4 ">
@@ -274,6 +271,7 @@ const UsersPage: React.FC = () => {
           </DialogContent>
         </Dialog>
       </div>
+
       {/* Render BarangMasukTable or other components here */}
       <BarangMasukTable data={barangIn} onDelete={handleDelete} />
     </div>

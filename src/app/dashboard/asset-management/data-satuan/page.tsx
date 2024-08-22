@@ -56,34 +56,34 @@ const UsersPage: React.FC = () => {
     }
   }, [selectedSatuan]);
 
-  useEffect(() => {
-    const fetchBarang = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/satuan`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        );
-        if (response.status === 200) {
-          console.log("Response data from fetchBarang:", response.data.data);
-          setSatuan(response.data.data);
-        } else {
-          console.error("Unexpected status code:", response.status);
+  const fetchBarang = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/satuan`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      );
+      if (response.status === 200) {
+        console.log("Response data from fetchBarang:", response.data.data);
+        setSatuan(response.data.data);
+      } else {
+        console.error("Unexpected status code:", response.status);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchBarang();
   }, []);
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id:number) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
@@ -95,9 +95,11 @@ const UsersPage: React.FC = () => {
           },
         }
       );
-      setSatuan(satuan.filter((item) => item.id !== id));
+      toast.success("Delete successful!");
+      fetchBarang(); // Refetch data after delete
     } catch (error) {
       console.error("Error deleting item:", error);
+      toast.error("Delete failed. Please try again.");
     }
   };
 
@@ -111,12 +113,8 @@ const UsersPage: React.FC = () => {
             "ngrok-skip-browser-warning": "69420",
           },
         })
-        .then((response) => {
-          console.log("Response:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          throw new Error("Add supplier failed. Please try again.");
+        .then(() => {
+          fetchBarang(); // Refetch data after submit
         }),
       {
         loading: "Loading...",
@@ -142,12 +140,8 @@ const UsersPage: React.FC = () => {
             },
           }
         )
-        .then((response) => {
-          console.log("Response:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          throw new Error("Update failed. Please try again.");
+        .then(() => {
+          fetchBarang(); // Refetch data after update
         }),
       {
         loading: "Loading...",

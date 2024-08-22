@@ -92,7 +92,7 @@ const BarangDashboardTable: React.FC<TableProps> = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {data?.map((item, index) => (
             <tr key={item.id} className="border-t">
               <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap">

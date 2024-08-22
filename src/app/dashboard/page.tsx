@@ -51,11 +51,12 @@ const DashboardPage: React.FC = () => {
   useEffect(() => {
     fetchBarang();
   }, []);
+
   if (loading) return <div>Loading...</div>;
 
   if (error) return <div>{error}</div>;
 
-  if (!barang) return <div>Tidak ada data</div>;
+  // if (!barang) return <div>Tidak ada data</div>;
 
   return (
     <div className="bg-white h-full w-full p-6 font-sans flex flex-col">
@@ -66,7 +67,14 @@ const DashboardPage: React.FC = () => {
         </p>
       </div>
       <Card />
-      <BarangDashboardTable data={barang} />
+
+      {barang ? (
+        <BarangDashboardTable data={barang} fetchBarang={fetchBarang} />
+      ) : (
+        <div className="w-full h-full mt-24 flex justify-center items-center">
+          <p>Tidak ada data</p>
+        </div>
+      )}
     </div>
   );
 };

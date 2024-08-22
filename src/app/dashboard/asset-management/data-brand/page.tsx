@@ -57,30 +57,30 @@ const UsersPage: React.FC = () => {
     }
   }, [selectedBrand]);
 
-  useEffect(() => {
-    const fetchBarang = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/brand`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        );
-        if (response.status === 200) {
-          console.log("Response data from fetchBarang:", response.data.data);
-          setBrand(response.data.data);
-        } else {
-          console.error("Unexpected status code:", response.status);
+  const fetchBarang = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/brand`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      );
+      if (response.status === 200) {
+        console.log("Response data from fetchBarang:", response.data.data);
+        setBrand(response.data.data);
+      } else {
+        console.error("Unexpected status code:", response.status);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchBarang();
   }, []);
 
@@ -96,9 +96,12 @@ const UsersPage: React.FC = () => {
           },
         }
       );
+      toast.success("Delete successful!");
+      fetchBarang(); // Refetch data after delete
       setBrand(brand.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Error deleting item:", error);
+      toast.error("Delete failed. Please try again.");
     }
   };
 
@@ -112,8 +115,8 @@ const UsersPage: React.FC = () => {
             "ngrok-skip-browser-warning": "69420",
           },
         })
-        .then((response) => {
-          console.log("Response:", response.data);
+        .then(() => {
+          fetchBarang(); // Refetch data after submit
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -143,8 +146,8 @@ const UsersPage: React.FC = () => {
             },
           }
         )
-        .then((response) => {
-          console.log("Response:", response.data);
+        .then(() => {
+          fetchBarang(); // Refetch data after submit
         })
         .catch((error) => {
           console.error("Error:", error);

@@ -4,31 +4,6 @@ import BarangMasukTable from "@/components/dashboard/barang-masuk/table";
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  Select,
-} from "@/components/ui/select";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
 
 interface Barang {
@@ -40,53 +15,40 @@ interface Barang {
   jumlah: number;
 }
 
-const formSchema = z.object({
-  barang_id: z.number().optional(),
-  jumlah: z.number().optional(),
-});
-
 const UsersPage: React.FC = () => {
   const [barangIn, setBarangIn] = useState<Barang[]>([]);
   const [barang, setBarang] = useState<any[]>([]);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      jumlah: 0,
-      barang_id: 0,
-    },
-  });
+  const fetchBarang = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const [responseBarangIn, responseBarang] = await Promise.all([
+        axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangout`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }),
+        axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }),
+      ]);
+      console.log("response", responseBarangIn);
+      if (responseBarangIn.status === 200) {
+        setBarangIn(responseBarangIn.data.data);
+        setBarang(responseBarang.data.data);
+      } else {
+        console.error("Unexpected status code:", responseBarangIn.status);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchBarang = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const [responseBarangIn, responseBarang] = await Promise.all([
-          axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangout`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }),
-          axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }),
-        ]);
-        console.log("response", responseBarangIn);
-        if (responseBarangIn.status === 200) {
-          setBarangIn(responseBarangIn.data.data);
-          setBarang(responseBarang.data.data);
-        } else {
-          console.error("Unexpected status code:", responseBarangIn.status);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchBarang();
   }, []);
 
@@ -95,48 +57,22 @@ const UsersPage: React.FC = () => {
   const handleDelete = async (id: number) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangout?id=${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "69420",
-        },
-      });
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangout?id=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      fetchBarang();
+      toast.success("Delete successful!");
       setBarangIn(barangIn.filter((item) => item.id !== id));
     } catch (error) {
+      toast.error("Delete failed. Please try again.");
       console.error("Error deleting item:", error);
     }
-  };
-
-  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    const token = localStorage.getItem("token");
-    toast.promise(
-      axios
-        .post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/admin/barangin`,
-          {
-            ...values,
-            jumlah: Number(values.jumlah),
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        )
-        .then((response) => {
-          console.log("Response:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          throw new Error("Add item failed. Please try again.");
-        }),
-      {
-        loading: "Loading...",
-        success: "Add item successful!",
-        error: "Add item failed. Please try again.",
-      }
-    );
   };
 
   return (

@@ -2,7 +2,6 @@
 
 import React from "react";
 
-
 interface Barang {
   id: number;
   nama_barang: string;
@@ -30,28 +29,46 @@ const BarangMasukTable: React.FC<TableProps> = ({ data, onDelete }) => {
       <table className="min-w-full bg-white border rounded-xl">
         <thead>
           <tr>
-            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">ID</th>
-            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">Nama Barang</th>
-            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">Nama Supplier</th>
-            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">Jumlah Keluar</th>
-            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">Satuan</th>
-            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">Action</th>
+            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
+              ID
+            </th>
+            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
+              Nama Barang
+            </th>
+            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
+              Nama Supplier
+            </th>
+            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
+              Jumlah Barang Masuk
+            </th>
+            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
+              Satuan
+            </th>
+            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-bold text-gray-500 uppercase">
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {data?.map((item, index) => (
             <tr key={item.id} className="border-t">
-              <td className="px-6 py-4 whitespace-nowrap">{item.id}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.nama_barang}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.nama_supplier}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.jumlah_keluar}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {item.nama_barang}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {item.nama_supplier}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {item.jumlah_keluar}
+              </td>
               <td className="px-6 py-4 whitespace-nowrap">{item.satuan}</td>
               <td className="px-6 py-4 whitespace-nowrap flex">
                 <button
                   onClick={() => handleDelete(item.id)}
                   className="text-red-500 hover:text-red-700 mx-2"
                 >
-                   <svg
+                  <svg
                     width="21"
                     height="21"
                     viewBox="0 0 21 21"

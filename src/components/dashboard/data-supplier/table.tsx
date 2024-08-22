@@ -57,9 +57,9 @@ const SupplierTable: React.FC<TableProps> = ({ data, onDelete, onUpdate }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {data?.map((item, index) => (
             <tr key={item.id} className="border-t">
-              <td className="px-6 py-4 whitespace-nowrap">{item.id}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap">
                 {item.nama_supplier}
               </td>

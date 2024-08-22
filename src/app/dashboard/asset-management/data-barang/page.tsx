@@ -93,16 +93,11 @@ const UsersPage: React.FC = () => {
     }
   }, [selectedBarang]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const [
-          responseBarang,
-          responseBrand,
-          responseSatuan,
-          responseSupplier,
-        ] = await Promise.all([
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const [responseBarang, responseBrand, responseSatuan, responseSupplier] =
+        await Promise.all([
           axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/barang`, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -129,21 +124,22 @@ const UsersPage: React.FC = () => {
           }),
         ]);
 
-        if (responseBarang.status === 200) {
-          setBarang(responseBarang.data.data);
-          setBrand(responseBrand.data.data);
-          setSatuan(responseSatuan.data.data);
-          setSupplier(responseSupplier.data.data);
-        } else {
-          console.error("Unexpected status code:", responseBarang.status);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (responseBarang.status === 200) {
+        setBarang(responseBarang.data.data);
+        setBrand(responseBrand.data.data);
+        setSatuan(responseSatuan.data.data);
+        setSupplier(responseSupplier.data.data);
+      } else {
+        console.error("Unexpected status code:", responseBarang.status);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [barang, brand, satuan, supplier]);
 
   const handleDelete = async (id: number) => {
     try {
@@ -157,9 +153,12 @@ const UsersPage: React.FC = () => {
           },
         }
       );
+      toast.success("Delete successful!");
+      fetchData();
       setBarang(barang.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Error deleting item:", error);
+      toast.error("Delete failed. Please try again.");
     }
   };
 
@@ -173,8 +172,8 @@ const UsersPage: React.FC = () => {
             "ngrok-skip-browser-warning": "69420",
           },
         })
-        .then((response) => {
-          console.log("Response:", response.data);
+        .then(() => {
+          fetchData();
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -204,8 +203,8 @@ const UsersPage: React.FC = () => {
             },
           }
         )
-        .then((response) => {
-          console.log("Response:", response.data);
+        .then(() => {
+          fetchData();
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -232,7 +231,7 @@ const UsersPage: React.FC = () => {
         <Dialog>
           <DialogTrigger asChild>
             <div className="flex gap-2 cursor-pointer">
-              <p className="font-bold underline">New Brand</p>
+              <p className="font-bold underline">New Barang</p>
             </div>
           </DialogTrigger>
           <DialogContent className="sm:max-w-2xl bg-[#D0D9EB]">

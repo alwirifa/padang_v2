@@ -97,24 +97,35 @@ const UsersPage: React.FC = () => {
 
   useEffect(() => {
     fetchBarang();
-    console.log("Selected User:", selectedUser?.id);
-  }, [selectedUser]);
+  }, []);
 
   const handleDelete = async (id: number) => {
+    const token = localStorage.getItem("token");
+
+    const deletePromise = axios.delete(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/admin/user?id=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "69420",
+        },
+      }
+    );
+
+    toast.promise(deletePromise, {
+      loading: "Deleting user...",
+      success: "User deleted successfully!",
+      error: "Failed to delete user. Please try again.",
+    });
+
     try {
-      const token = localStorage.getItem("token");
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/admin/user?id=${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "69420",
-          },
-        }
-      );
+      await deletePromise;
+      toast.success("Delete Succes");
+      fetchBarang();
       setUser(user.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Error deleting item:", error);
+      toast.error("Delete failed. Please try again.");
     }
   };
 
@@ -128,8 +139,8 @@ const UsersPage: React.FC = () => {
             "ngrok-skip-browser-warning": "69420",
           },
         })
-        .then((response) => {
-          console.log("Response:", response.data);
+        .then(() => {
+          fetchBarang();
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -160,8 +171,8 @@ const UsersPage: React.FC = () => {
             },
           }
         )
-        .then((response) => {
-          console.log("Response:", response.data);
+        .then(() => {
+          fetchBarang();
         })
         .catch((error) => {
           console.error("Error:", error);
