@@ -30,6 +30,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
+import { Item } from "@radix-ui/react-accordion";
 
 interface Barang {
   id: number;
@@ -54,6 +55,7 @@ const UsersPage: React.FC = () => {
     defaultValues: {
       jumlah: 0,
       barang_id: 0,
+      jumlah_stok:0,
     },
   });
 
@@ -203,7 +205,13 @@ const UsersPage: React.FC = () => {
                       <FormLabel>Masukan Barang</FormLabel>
                       <Select
                         onValueChange={(value) => {
+                          const selectedBarang = barang.find((item) => item.id === Number(value));
                           field.onChange(Number(value)); // Convert value to number
+
+                          // Update the jumlah field value when barang changes
+                          if (selectedBarang) {
+                            form.setValue("jumlah", selectedBarang.jumlah); // Set jumlah value to the selected barang's jumlah
+                          }
                         }}
                         value={field.value?.toString() || ""}
                       >
@@ -228,12 +236,35 @@ const UsersPage: React.FC = () => {
                   )}
                 />
 
+                {/* Disabled form field to show jumlah */}
                 <FormField
                   control={form.control}
                   name="jumlah"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Jumlah</FormLabel>
+                      <FormLabel>Jumlah Masuk</FormLabel>
+                      <FormControl>
+                        <input
+                          type="number"
+                          {...field}
+                          className="w-full p-2 border border-gray-300 rounded"
+                          disabled
+                          value={field.value || ""} // Display the jumlah value
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                
+
+                <FormField
+                  control={form.control}
+                  name="jumlah"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Jumlah Masuk</FormLabel>
                       <FormControl>
                         <input
                           type="number"

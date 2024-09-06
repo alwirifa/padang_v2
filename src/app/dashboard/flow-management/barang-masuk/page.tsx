@@ -44,6 +44,7 @@ interface Barang {
 const formSchema = z.object({
   barang_id: z.number().optional(),
   jumlah: z.number().optional(),
+  jumlah_stok: z.number().optional()
 });
 
 const UsersPage: React.FC = () => {
@@ -55,6 +56,7 @@ const UsersPage: React.FC = () => {
     defaultValues: {
       jumlah: 0,
       barang_id: 0,
+      jumlah_stok: 0,
     },
   });
 
@@ -202,7 +204,14 @@ const UsersPage: React.FC = () => {
                       <FormLabel>Masukan Barang</FormLabel>
                       <Select
                         onValueChange={(value) => {
-                          field.onChange(Number(value)); // Convert value to number
+                          // Find the selected barang based on its ID
+                          const selectedBarang = barang.find((item) => item.id === Number(value));
+                          field.onChange(Number(value)); // Update barang_id value
+
+                          // Update jumlah_stok to the selected barang's actual stock (item.jumlah)
+                          if (selectedBarang) {
+                            form.setValue("jumlah_stok", Number(selectedBarang.stok))
+                          }
                         }}
                         value={field.value?.toString() || ""}
                       >
@@ -227,6 +236,28 @@ const UsersPage: React.FC = () => {
                   )}
                 />
 
+                {/* Disabled Field to Display Actual Stock (Jumlah) */}
+                <FormField
+                  control={form.control}
+                  name="jumlah_stok"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Jumlah Stok</FormLabel>
+                      <FormControl>
+                        <input
+                          type="number"
+                          {...field}
+                          className="w-full p-2 border border-gray-300 rounded"
+                          disabled
+                          value={field.value?.toString() || ""} // Display the actual stock from the selected barang
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Input Field for Jumlah */}
                 <FormField
                   control={form.control}
                   name="jumlah"
@@ -249,6 +280,7 @@ const UsersPage: React.FC = () => {
                     </FormItem>
                   )}
                 />
+
 
                 <DialogFooter className="">
                   <div className="w-full flex justify-center gap-4 ">
